@@ -1,0 +1,71 @@
+@import url(https://fonts.googleapis.com/css?family=Inter:400,500,600,700,800,900);
+
+* {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    user-select: none;
+}
+
+.container {
+    position: absolute;
+    top: 20%;
+    right: 2%;
+    width: 17vw;
+    height: 28vw;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 15px 0 rgb(0, 0, 0);
+    transition: .3;
+    display: none;
+}
+
+.container h1 {
+    text-align: center;
+    color: #eee;
+    margin-bottom: 0;
+    font-size: 1.1vw;
+}
+
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    height: 19vw;
+    margin-top: .5vw;
+}
+
+.item {
+    background-color: rgba(95, 95, 95, 0.3);
+    border-radius: 10px;
+    width: 5vw;
+    height: 5.5vw;
+    margin-left: .2vw;
+    margin-right: .2vw;
+    margin-top: .5vw;
+    transition: .3s;
+    cursor: pointer;
+    border: 2px solid #aaa;
+    color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item:hover {
+    transform: scale(1.03);
+}
+
+.item i {
+    font-size: 2.5vw;
+    text-align: center;
+    justify-content: center;
+}
+
+@media screen and (max-width: 1366px) {
+    .container {
+        width: 18vw;
+        height: 29vw;
+    }
+}

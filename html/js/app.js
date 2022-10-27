@@ -1,4 +1,4 @@
-$( function() {
+$(function() {
     window.addEventListener( 'message', function( event ) {
         var item = event.data;
         
@@ -9,19 +9,56 @@ $( function() {
 
             case 'hide':
                 $('.container').fadeOut(500);
+                
+                const myTooltipEl = document.querySelectorAll('.myTooltip');
+        
+                myTooltipEl.forEach(myTool => {
+                    const tooltip = bootstrap.Tooltip.getOrCreateInstance(myTool)
+                    tooltip.hide()
+                })
             break;
         };
     });
 
     document.onkeyup = function (data) {
         if (data.which == 27) {
-            $.post('https://5p_clothes/close', JSON.stringify({}));
+            $.post(`https://${GetParentResourceName()}/close`, JSON.stringify({}));
         };
     }
 
     $('.item').on('click', function() {
-        $.post('https://5p_clothes/select', JSON.stringify({
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+        } else {
+            $(this).addClass('active');
+        };
+
+        $.post(`https://${GetParentResourceName()}/select`, JSON.stringify({
             item: this.id
         }));
     });
+
+    $('.option').on('click', function() {
+        $.post(`https://${GetParentResourceName()}/reset`);
+
+        $('.item').removeClass('active');
+    })
+
+    $('.reset').on('click', function() {
+        $.post(`https://${GetParentResourceName()}/reset`);
+
+        $('.item').removeClass('active');
+    })
+
+    const myTooltipEl = document.querySelectorAll('.myTooltip');
+        
+    myTooltipEl.forEach(myTool => {
+        const tooltip = bootstrap.Tooltip.getOrCreateInstance(myTool)
+
+        myTool.addEventListener('hidden.bs.tooltip', () => {
+  
+        })
+
+        tooltip.hide()
+    })
 });

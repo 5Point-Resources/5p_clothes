@@ -1,5 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Inter:400,500,600,700,800,900);
 
+body {
+    background-color: transparent !important;
+}
+
 * {
     font-family: 'Inter', sans-serif;
     font-weight: 800;
@@ -7,23 +11,50 @@
 }
 
 .container {
+    display: none;
+}
+
+.reset {
+    position: absolute;
+    top: 15%;
+    right: 2%;
+    width: 2vw;
+    height: 2vw;
+    transition: .3s;
+    cursor: pointer;
+    color: #eee;
+    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 15px 0 rgb(0, 0, 0);
+    border-radius: .5vw;
+}
+
+.reset i {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2vw;
+}
+
+.menu {
     position: absolute;
     top: 20%;
     right: 2%;
     width: 17vw;
     height: 28vw;
     background: rgba(0, 0, 0, 0.8);
-    border-radius: 10px;
+    border-radius: .5vw;
     overflow: hidden;
     box-shadow: 0 0 15px 0 rgb(0, 0, 0);
-    transition: .3;
-    display: none;
+    transition: .3s;
+    display: block;
 }
 
-.container h1 {
+.menu h1 {
     text-align: center;
     color: #eee;
-    margin-bottom: 0;
+    margin-top: .8vw;
+    margin-bottom: .5vw;
     font-size: 1.1vw;
 }
 
@@ -38,7 +69,7 @@
 
 .item {
     background-color: rgba(95, 95, 95, 0.3);
-    border-radius: 10px;
+    border-radius: .5vw;
     width: 5vw;
     height: 5.5vw;
     margin-left: .2vw;
@@ -54,6 +85,7 @@
 }
 
 .item:hover {
+    background-color: #e69122;
     transform: scale(1.03);
 }
 
@@ -61,6 +93,11 @@
     font-size: 2.5vw;
     text-align: center;
     justify-content: center;
+}
+
+.active {
+    background-color: #e69122;
+    border: 2px solid #eee;
 }
 
 @media screen and (max-width: 1366px) {

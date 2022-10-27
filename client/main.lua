@@ -5,20 +5,51 @@ local PreviousTorso = {}
 
 RegisterCommand(Config.Command, function()
     if not opened then
+        opened = true
         SendNUIMessage({
             action = 'show'
         })
+
         SetNuiFocus(true, true)
-    else
-        SendNUIMessage({
-            action = 'hide'
-        })
-        SetNuiFocus(false, false)
+        SetNuiFocusKeepInput(true)
+
+        StartLoopControls()
     end
-    opened = not opened
 end, false)
 
-RegisterKeyMapping('clothing', 'Open Clothing Menu', 'keyboard', Config.KeyToOpen)
+RegisterKeyMapping(Config.Command, 'Open Clothing Menu', 'keyboard', Config.KeyToOpen)
+
+function StartLoopControls()
+    CreateThread(function()
+        while opened do
+            Wait(0)
+
+            DisableControlAction(0, 1, true) -- disable mouse look
+            DisableControlAction(0, 2, true) -- disable mouse look
+            DisableControlAction(0, 3, true) -- disable mouse look
+            DisableControlAction(0, 4, true) -- disable mouse look
+            DisableControlAction(0, 5, true) -- disable mouse look
+            DisableControlAction(0, 6, true) -- disable mouse look
+            DisableControlAction(0, 263, true) -- disable melee
+            DisableControlAction(0, 264, true) -- disable melee
+            DisableControlAction(0, 257, true) -- disable melee
+            DisableControlAction(0, 140, true) -- disable melee
+            DisableControlAction(0, 141, true) -- disable melee
+            DisableControlAction(0, 142, true) -- disable melee
+            DisableControlAction(0, 143, true) -- disable melee
+            DisableControlAction(0, 177, true) -- disable escape
+            DisableControlAction(0, 200, true) -- disable escape
+            DisableControlAction(0, 202, true) -- disable escape
+            DisableControlAction(0, 322, true) -- disable escape
+            DisableControlAction(0, 245, true) -- disable chat
+            DisableControlAction(0, 37, true) -- disable TAB
+            DisableControlAction(0, 261, true) -- disable mouse wheel
+            DisableControlAction(0, 262, true) -- disable mouse wheel
+            HideHudComponentThisFrame(19)
+            DisablePlayerFiring(PlayerId(), true) -- disable weapon firing
+        end
+    end)
+end
 
 RegisterNUICallback('close', function()
     SendNUIMessage({
@@ -114,11 +145,7 @@ RegisterNUICallback('select', function(data)
             PreviousComponent[item] = GetPedPropIndex(playerPed, 2)
             PreviousTexture[item] = GetPedPropTextureIndex(playerPed, 2)
             PlayAnim(item)
-            if GetPedGender(playerPed) == 'male' then
-                SetPedPropIndex(playerPed, 2, Config.TakeOff.male.ear, 0, false)
-            elseif GetPedGender(playerPed) == 'female' then
-                SetPedPropIndex(playerPed, 2, Config.TakeOff.female.ear, 0, false)
-            end
+            ClearPedProp(playerPed, 2)
         elseif item == 'hat' then
             PreviousComponent[item] = GetPedPropIndex(playerPed, 0)
             PreviousTexture[item] = GetPedPropTextureIndex(playerPed, 0)
@@ -216,6 +243,87 @@ RegisterNUICallback('select', function(data)
     end
 end)
 
+RegisterNUICallback('reset', function(data, cb)
+    local playerPed = PlayerPedId()
+
+    if PreviousComponent['shirt'] ~= nil then
+        SetPedComponentVariation(playerPed, 11, PreviousComponent['shirt'], PreviousTexture['shirt'], 2)
+        SetPedComponentVariation(playerPed, 3, PreviousTorso['shirt'], 0, 2)
+        PreviousTorso['shirt'] = nil
+        PreviousComponent['shirt'] = nil
+        PreviousTexture['shirt'] = nil
+    end
+
+    if PreviousComponent['pants'] ~= nil then
+        SetPedComponentVariation(playerPed, 4, PreviousComponent['pants'], PreviousTexture['pants'], 2)
+        PreviousComponent['pants'] = nil
+        PreviousTexture['pants'] = nil
+    end
+
+    if PreviousComponent['shoes'] ~= nil then
+        SetPedComponentVariation(playerPed, 6, PreviousComponent['shoes'], PreviousTexture['shoes'], 2)
+        PreviousComponent['shoes'] = nil
+        PreviousTexture['shoes'] = nil
+    end
+
+    if PreviousComponent['jewelry'] ~= nil then
+        SetPedComponentVariation(playerPed, 7, PreviousComponent['jewelry'],
+        PreviousTexture['jewelry'], 2)
+        PreviousComponent['jewelry'] = nil
+        PreviousTexture['jewelry'] = nil
+    end
+
+    if PreviousComponent['glasses'] ~= nil then
+        SetPedPropIndex(playerPed, 1, PreviousComponent['glasses'], PreviousTexture['glasses'], false)
+        PreviousComponent['glasses'] = nil
+        PreviousTexture['glasses'] = nil
+    end
+
+    if PreviousComponent['watch'] ~= nil then
+        SetPedPropIndex(playerPed, 6, PreviousComponent['watch'], PreviousTexture['watch'], false)
+        PreviousComponent['watch'] = nil
+        PreviousTexture['watch'] = nil
+    end
+
+    if PreviousComponent['vest'] ~= nil then
+        SetPedComponentVariation(playerPed, 9, PreviousComponent['vest'], PreviousTexture['vest'], 2)
+        PreviousComponent['vest'] = nil
+        PreviousTexture['vest'] = nil
+    end
+
+    if PreviousComponent['mask'] ~= nil then
+        SetPedComponentVariation(playerPed, 1, PreviousComponent['mask'], PreviousTexture['mask'], 2)
+        PreviousComponent['mask'] = nil
+        PreviousTexture['mask'] = nil
+    end
+
+    if PreviousComponent['ear'] ~= nil then
+        SetPedPropIndex(playerPed, 2, PreviousComponent['ear'], PreviousTexture['ear'], false)
+        PreviousComponent['ear'] = nil
+        PreviousTexture['ear'] = nil
+    end
+
+    if PreviousComponent['hat'] ~= nil then
+        SetPedPropIndex(playerPed, 0, PreviousComponent['hat'], PreviousTexture['hat'], false)
+        PreviousComponent['hat'] = nil
+        PreviousTexture['hat'] = nil
+    end
+
+    if PreviousComponent['bag'] ~= nil then
+        SetPedComponentVariation(playerPed, 5, PreviousComponent['bag'], PreviousTexture['bag'], 2)
+        PreviousComponent['bag'] = nil
+        PreviousTexture['bag'] = nil
+    end
+
+    if PreviousComponent['gloves'] ~= nil then
+        SetPedComponentVariation(playerPed, 3, PreviousComponent['gloves'], PreviousTexture['gloves'], 2)
+        PreviousComponent['gloves'] = nil
+        PreviousTexture['gloves'] = nil
+    end
+
+    cb('ok')
+end)
+
 function PlayAnim(item)
     local playerPed = PlayerPedId()
     local anim = nil
@@ -270,6 +378,10 @@ function PlayAnim(item)
         dict = 'nmt_3_rcm-10'
         anim = 'cs_nigel_dual-10'
         move = 51
+    elseif item == 'hair' then
+        dict = 'clothingtie'
+        anim = 'check_out_a'
+        move = 51
     end
 
 
@@ -289,3 +401,15 @@ function GetPedGender(playerPed)
         return 'female'
     end
 end
+
+RegisterCommand("pelo", function()
+    if lastHair then
+        SetPedComponentVariation(PlayerPedId(), 2, lastHair, 0, 0)
+        PlayAnim('hair')
+        lastHair = nil
+    else
+        lastHair = GetPedDrawableVariation(PlayerPedId(), 2)
+        SetPedComponentVariation(PlayerPedId(), 2, 73, 0, 0)
+        PlayAnim('hair')
+    end
+end, false)

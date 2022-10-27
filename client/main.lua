@@ -378,10 +378,6 @@ function PlayAnim(item)
         dict = 'nmt_3_rcm-10'
         anim = 'cs_nigel_dual-10'
         move = 51
-    elseif item == 'hair' then
-        dict = 'clothingtie'
-        anim = 'check_out_a'
-        move = 51
     end
 
 
@@ -401,15 +397,3 @@ function GetPedGender(playerPed)
         return 'female'
     end
 end
-
-RegisterCommand("pelo", function()
-    if lastHair then
-        SetPedComponentVariation(PlayerPedId(), 2, lastHair, 0, 0)
-        PlayAnim('hair')
-        lastHair = nil
-    else
-        lastHair = GetPedDrawableVariation(PlayerPedId(), 2)
-        SetPedComponentVariation(PlayerPedId(), 2, 73, 0, 0)
-        PlayAnim('hair')
-    end
-end, false)
